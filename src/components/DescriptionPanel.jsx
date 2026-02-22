@@ -12,12 +12,12 @@ export default function DescriptionPanel({ problem }) {
                 >
                     Description
                 </button>
-                {problem.hints && problem.hints.length > 0 && (
+                {problem.editorial && (
                     <button
-                        className={`panel-tab ${activeTab === 'hints' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('hints')}
+                        className={`panel-tab ${activeTab === 'editorial' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('editorial')}
                     >
-                        Hints ({problem.hints.length})
+                        Editorial
                     </button>
                 )}
             </div>
@@ -25,7 +25,7 @@ export default function DescriptionPanel({ problem }) {
                 {activeTab === 'description' ? (
                     <DescriptionTab problem={problem} />
                 ) : (
-                    <HintsTab hints={problem.hints} />
+                    <EditorialTab editorial={problem.editorial} />
                 )}
             </div>
         </>
@@ -81,16 +81,85 @@ function DescriptionTab({ problem }) {
                     </ul>
                 </>
             )}
+
+            {/* Hints - inline, collapsible */}
+            {problem.hints && problem.hints.length > 0 && (
+                <>
+                    <h2>Hints</h2>
+                    <div className="hints-section">
+                        {problem.hints.map((hint, i) => (
+                            <HintItem key={i} index={i} hint={hint} />
+                        ))}
+                    </div>
+                </>
+            )}
         </div>
     );
 }
 
-function HintsTab({ hints }) {
+function EditorialTab({ editorial }) {
+    if (!editorial) return null;
+
     return (
-        <div className="hints-section">
-            {hints.map((hint, i) => (
-                <HintItem key={i} index={i} hint={hint} />
-            ))}
+        <div className="description-content editorial-content">
+            {/* Approach heading */}
+            {editorial.approach && (
+                <>
+                    <h2>Approach: {editorial.approach}</h2>
+                </>
+            )}
+
+            {/* Intuition */}
+            {editorial.intuition && (
+                <div className="editorial-section">
+                    <h3>Intuition</h3>
+                    {editorial.intuition.split('\n').map((p, i) => {
+                        if (!p.trim()) return null;
+                        return <p key={i} dangerouslySetInnerHTML={{ __html: formatInlineCode(p) }} />;
+                    })}
+                </div>
+            )}
+
+            {/* Algorithm steps */}
+            {editorial.steps && editorial.steps.length > 0 && (
+                <div className="editorial-section">
+                    <h3>Algorithm</h3>
+                    <ol className="editorial-steps">
+                        {editorial.steps.map((step, i) => (
+                            <li key={i} dangerouslySetInnerHTML={{ __html: formatInlineCode(step) }} />
+                        ))}
+                    </ol>
+                </div>
+            )}
+
+            {/* Solution code */}
+            {editorial.solution && (
+                <div className="editorial-section">
+                    <h3>Solution</h3>
+                    <pre className="editorial-code"><code>{editorial.solution}</code></pre>
+                </div>
+            )}
+
+            {/* Complexity */}
+            {(editorial.timeComplexity || editorial.spaceComplexity) && (
+                <div className="editorial-section">
+                    <h3>Complexity Analysis</h3>
+                    <ul className="complexity-list">
+                        {editorial.timeComplexity && (
+                            <li>
+                                <strong>Time: </strong>
+                                <span dangerouslySetInnerHTML={{ __html: formatInlineCode(editorial.timeComplexity) }} />
+                            </li>
+                        )}
+                        {editorial.spaceComplexity && (
+                            <li>
+                                <strong>Space: </strong>
+                                <span dangerouslySetInnerHTML={{ __html: formatInlineCode(editorial.spaceComplexity) }} />
+                            </li>
+                        )}
+                    </ul>
+                </div>
+            )}
         </div>
     );
 }

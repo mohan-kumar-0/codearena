@@ -24,4 +24,27 @@ function rotate(matrix) {
 
 }`,
     functionName: 'rotate',
+    editorial: {
+        approach: 'Transpose + Reverse',
+        intuition: `A 90-degree clockwise rotation is equivalent to transposing the matrix (swap rows and columns) and then reversing each row.`,
+        steps: [
+            'Transpose: swap \`matrix[i][j]\` with \`matrix[j][i]\` for all i < j.',
+            'Reverse each row in place.',
+        ],
+        solution: `function rotate(matrix) {
+  const n = matrix.length;
+  // Transpose
+  for (let i = 0; i < n; i++) {
+    for (let j = i + 1; j < n; j++) {
+      [matrix[i][j], matrix[j][i]] = [matrix[j][i], matrix[i][j]];
+    }
+  }
+  // Reverse each row
+  for (const row of matrix) {
+    row.reverse();
+  }
+}`,
+        timeComplexity: 'O(n^2) -- visit each element once',
+        spaceComplexity: 'O(1) -- in-place',
+    },
 };

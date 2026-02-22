@@ -23,4 +23,29 @@ function lengthOfLongestSubstring(s) {
 
 }`,
     functionName: 'lengthOfLongestSubstring',
+    editorial: {
+        approach: 'Sliding Window with Set',
+        intuition: `Maintain a window of unique characters using a Set. Expand the right pointer to include new characters. When a duplicate is found, shrink from the left until the duplicate is removed.`,
+        steps: [
+            'Initialize a Set, \`left = 0\`, and \`maxLen = 0\`.',
+            'Iterate right from 0 to n-1.',
+            'While \`s[right]\` is in the Set, remove \`s[left]\` and increment left.',
+            'Add \`s[right]\` to the Set and update \`maxLen\`.',
+        ],
+        solution: `function lengthOfLongestSubstring(s) {
+  const set = new Set();
+  let left = 0, maxLen = 0;
+  for (let right = 0; right < s.length; right++) {
+    while (set.has(s[right])) {
+      set.delete(s[left]);
+      left++;
+    }
+    set.add(s[right]);
+    maxLen = Math.max(maxLen, right - left + 1);
+  }
+  return maxLen;
+}`,
+        timeComplexity: 'O(n) -- each character is added and removed from the Set at most once',
+        spaceComplexity: 'O(min(n, m)) -- where m is the size of the character set',
+    },
 };

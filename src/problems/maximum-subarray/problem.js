@@ -40,4 +40,25 @@ function maxSubArray(nums) {
 
 }`,
     functionName: 'maxSubArray',
+    editorial: {
+        approach: "Kadane's Algorithm",
+        intuition: `At each position, we decide: should we extend the current subarray or start a new one here? If the running sum becomes negative, it is better to start fresh from the current element.`,
+        steps: [
+            'Initialize \`currentSum\` and \`maxSum\` both to \`nums[0]\`.',
+            'Iterate from index 1. At each step, set \`currentSum = Math.max(nums[i], currentSum + nums[i])\`.',
+            'Update \`maxSum = Math.max(maxSum, currentSum)\`.',
+            'Return \`maxSum\` after the loop.',
+        ],
+        solution: `function maxSubArray(nums) {
+  let current = nums[0];
+  let max = nums[0];
+  for (let i = 1; i < nums.length; i++) {
+    current = Math.max(nums[i], current + nums[i]);
+    max = Math.max(max, current);
+  }
+  return max;
+}`,
+        timeComplexity: 'O(n) -- single pass',
+        spaceComplexity: 'O(1) -- only two variables',
+    },
 };

@@ -34,4 +34,30 @@ function merge(intervals) {
 
 }`,
     functionName: 'merge',
+    editorial: {
+        approach: 'Sorting',
+        intuition: `If we sort intervals by their start time, overlapping intervals will be adjacent. We can then merge them in a single pass by comparing each interval's start with the previous interval's end.`,
+        steps: [
+            'Sort intervals by their start value.',
+            'Initialize a result array with the first interval.',
+            'For each subsequent interval, compare its start with the end of the last merged interval.',
+            'If they overlap (start <= previous end), extend the previous end to \`Math.max(prevEnd, currentEnd)\`.',
+            'Otherwise, push the current interval as a new entry.',
+        ],
+        solution: `function merge(intervals) {
+  intervals.sort((a, b) => a[0] - b[0]);
+  const result = [intervals[0]];
+  for (let i = 1; i < intervals.length; i++) {
+    const last = result[result.length - 1];
+    if (intervals[i][0] <= last[1]) {
+      last[1] = Math.max(last[1], intervals[i][1]);
+    } else {
+      result.push(intervals[i]);
+    }
+  }
+  return result;
+}`,
+        timeComplexity: 'O(n log n) -- dominated by the sort',
+        spaceComplexity: 'O(n) -- result array',
+    },
 };

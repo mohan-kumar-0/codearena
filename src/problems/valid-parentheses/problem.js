@@ -44,4 +44,29 @@ function isValid(s) {
 
 }`,
     functionName: 'isValid',
+    editorial: {
+        approach: 'Stack',
+        intuition: `Every closing bracket must match the most recent unmatched opening bracket. A stack naturally tracks the most recent one at the top.`,
+        steps: [
+            'Create an empty stack and a map of closing-to-opening brackets.',
+            'Iterate through each character in the string.',
+            'If it is an opening bracket, push it onto the stack.',
+            'If it is a closing bracket, check if the stack top matches. If not, return false.',
+            'After iteration, return true only if the stack is empty.',
+        ],
+        solution: `function isValid(s) {
+  const stack = [];
+  const map = { ')': '(', '}': '{', ']': '[' };
+  for (const ch of s) {
+    if (ch in map) {
+      if (stack.pop() !== map[ch]) return false;
+    } else {
+      stack.push(ch);
+    }
+  }
+  return stack.length === 0;
+}`,
+        timeComplexity: 'O(n) -- single pass through the string',
+        spaceComplexity: 'O(n) -- stack can hold up to n/2 elements',
+    },
 };

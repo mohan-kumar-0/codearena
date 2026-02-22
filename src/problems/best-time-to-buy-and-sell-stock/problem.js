@@ -26,4 +26,25 @@ function maxProfit(prices) {
 
 }`,
     functionName: 'maxProfit',
+    editorial: {
+        approach: 'Single Pass with Min Tracking',
+        intuition: `Track the minimum price seen so far. At each day, the maximum profit if we sold today is \`price - minPrice\`. Keep a running maximum of this value.`,
+        steps: [
+            'Initialize \`minPrice = Infinity\` and \`maxProfit = 0\`.',
+            'Iterate through prices.',
+            'Update \`minPrice\` if current price is lower.',
+            'Update \`maxProfit\` if \`price - minPrice\` is greater.',
+        ],
+        solution: `function maxProfit(prices) {
+  let minPrice = Infinity;
+  let maxProfit = 0;
+  for (const price of prices) {
+    minPrice = Math.min(minPrice, price);
+    maxProfit = Math.max(maxProfit, price - minPrice);
+  }
+  return maxProfit;
+}`,
+        timeComplexity: 'O(n) -- single pass',
+        spaceComplexity: 'O(1)',
+    },
 };

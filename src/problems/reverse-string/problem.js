@@ -35,4 +35,24 @@ function reverseString(s) {
 
 }`,
     functionName: 'reverseString',
+    editorial: {
+        approach: 'Two Pointers',
+        intuition: `Use two pointers starting from both ends of the array and swap characters moving inward until they meet.`,
+        steps: [
+            'Initialize a left pointer at 0 and a right pointer at \`s.length - 1\`.',
+            'Swap \`s[left]\` and \`s[right]\`.',
+            'Move left forward and right backward.',
+            'Repeat until left >= right.',
+        ],
+        solution: `function reverseString(s) {
+  let left = 0, right = s.length - 1;
+  while (left < right) {
+    [s[left], s[right]] = [s[right], s[left]];
+    left++;
+    right--;
+  }
+}`,
+        timeComplexity: 'O(n) -- each element is visited once',
+        spaceComplexity: 'O(1) -- in-place swap, no extra space',
+    },
 };

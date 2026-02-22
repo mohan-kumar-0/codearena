@@ -27,4 +27,41 @@ function minWindow(s, t) {
 
 }`,
     functionName: 'minWindow',
+    editorial: {
+        approach: 'Sliding Window with Frequency Map',
+        intuition: `Expand the right pointer to find a window that contains all characters of t. Then contract the left pointer to find the smallest such window. Use frequency maps to track required vs. current character counts.`,
+        steps: [
+            'Build a frequency map of characters in t.',
+            'Use two pointers (left, right) and a counter for how many characters are still needed.',
+            'Expand right: add characters, decrement the needed counter when a required character is fully satisfied.',
+            'When all characters are satisfied, try to shrink from the left to find the minimum window.',
+            'Track the smallest valid window throughout.',
+        ],
+        solution: `function minWindow(s, t) {
+  const need = {};
+  for (const c of t) need[c] = (need[c] || 0) + 1;
+  let required = Object.keys(need).length;
+  const window = {};
+  let formed = 0, left = 0;
+  let minLen = Infinity, minStart = 0;
+  for (let right = 0; right < s.length; right++) {
+    const c = s[right];
+    window[c] = (window[c] || 0) + 1;
+    if (need[c] && window[c] === need[c]) formed++;
+    while (formed === required) {
+      if (right - left + 1 < minLen) {
+        minLen = right - left + 1;
+        minStart = left;
+      }
+      const d = s[left];
+      window[d]--;
+      if (need[d] && window[d] < need[d]) formed--;
+      left++;
+    }
+  }
+  return minLen === Infinity ? "" : s.substring(minStart, minStart + minLen);
+}`,
+        timeComplexity: 'O(m + n) -- each character is visited at most twice',
+        spaceComplexity: 'O(m + n) -- frequency maps',
+    },
 };

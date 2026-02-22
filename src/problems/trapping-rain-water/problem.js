@@ -35,4 +35,32 @@ function trap(height) {
 
 }`,
     functionName: 'trap',
+    editorial: {
+        approach: 'Two Pointers',
+        intuition: `Water trapped at each position depends on the minimum of the maximum heights to its left and right, minus the current height. Two pointers from both ends let us track these maxima without extra arrays.`,
+        steps: [
+            'Initialize \`left = 0\`, \`right = n - 1\`, \`leftMax = 0\`, \`rightMax = 0\`, \`water = 0\`.',
+            'While left < right:',
+            'If \`height[left] < height[right]\`, process the left side: update leftMax, add \`leftMax - height[left]\` to water, increment left.',
+            'Otherwise, process the right side: update rightMax, add \`rightMax - height[right]\` to water, decrement right.',
+        ],
+        solution: `function trap(height) {
+  let left = 0, right = height.length - 1;
+  let leftMax = 0, rightMax = 0, water = 0;
+  while (left < right) {
+    if (height[left] < height[right]) {
+      leftMax = Math.max(leftMax, height[left]);
+      water += leftMax - height[left];
+      left++;
+    } else {
+      rightMax = Math.max(rightMax, height[right]);
+      water += rightMax - height[right];
+      right--;
+    }
+  }
+  return water;
+}`,
+        timeComplexity: 'O(n) -- single pass with two pointers',
+        spaceComplexity: 'O(1) -- constant extra space',
+    },
 };

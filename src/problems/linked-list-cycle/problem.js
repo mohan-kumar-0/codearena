@@ -35,4 +35,25 @@ function hasCycle(head) {
 
 }`,
     functionName: 'hasCycle',
+    editorial: {
+        approach: "Floyd's Cycle Detection (Tortoise and Hare)",
+        intuition: `Use two pointers moving at different speeds. If there is a cycle, the fast pointer will eventually catch up to the slow pointer. If there is no cycle, the fast pointer will reach the end.`,
+        steps: [
+            'Initialize \`slow\` and \`fast\` both to \`head\`.',
+            'Move slow by 1 step and fast by 2 steps in each iteration.',
+            'If slow and fast ever meet, there is a cycle -- return true.',
+            'If fast reaches null, there is no cycle -- return false.',
+        ],
+        solution: `function hasCycle(head) {
+  let slow = head, fast = head;
+  while (fast && fast.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+    if (slow === fast) return true;
+  }
+  return false;
+}`,
+        timeComplexity: 'O(n)',
+        spaceComplexity: 'O(1) -- only two pointers',
+    },
 };

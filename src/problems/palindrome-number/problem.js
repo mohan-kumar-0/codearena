@@ -27,4 +27,24 @@ function isPalindrome(x) {
 
 }`,
     functionName: 'isPalindrome',
+    editorial: {
+        approach: 'Reverse Half the Number',
+        intuition: `Negative numbers are never palindromes. For non-negative numbers, reverse the second half and compare it to the first half. This avoids string conversion.`,
+        steps: [
+            'Return false if x is negative or ends with 0 (but is not 0).',
+            'Reverse digits from the right until reversed >= remaining.',
+            'Compare: \`x === reversed\` or \`x === Math.floor(reversed / 10)\` (for odd-length numbers).',
+        ],
+        solution: `function isPalindrome(x) {
+  if (x < 0 || (x % 10 === 0 && x !== 0)) return false;
+  let reversed = 0;
+  while (x > reversed) {
+    reversed = reversed * 10 + x % 10;
+    x = Math.floor(x / 10);
+  }
+  return x === reversed || x === Math.floor(reversed / 10);
+}`,
+        timeComplexity: 'O(log n) -- we process half the digits',
+        spaceComplexity: 'O(1) -- no extra space',
+    },
 };

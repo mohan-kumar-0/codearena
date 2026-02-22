@@ -25,4 +25,25 @@ function fizzBuzz(n) {
 
 }`,
     functionName: 'fizzBuzz',
+    editorial: {
+        approach: 'Iteration with Modulo',
+        intuition: `Straightforward iteration from 1 to n. Check divisibility by 15 first (since 15 = 3 * 5), then by 3, then by 5. Otherwise, use the number itself as a string.`,
+        steps: [
+            'Create an empty result array.',
+            'Loop from 1 to n.',
+            'For each i: if divisible by 15, push "FizzBuzz". If by 3, push "Fizz". If by 5, push "Buzz". Else push \`String(i)\`.',
+        ],
+        solution: `function fizzBuzz(n) {
+  const result = [];
+  for (let i = 1; i <= n; i++) {
+    if (i % 15 === 0) result.push("FizzBuzz");
+    else if (i % 3 === 0) result.push("Fizz");
+    else if (i % 5 === 0) result.push("Buzz");
+    else result.push(String(i));
+  }
+  return result;
+}`,
+        timeComplexity: 'O(n)',
+        spaceComplexity: 'O(n) -- output array',
+    },
 };

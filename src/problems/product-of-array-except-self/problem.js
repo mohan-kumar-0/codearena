@@ -26,4 +26,28 @@ function productExceptSelf(nums) {
 
 }`,
     functionName: 'productExceptSelf',
+    editorial: {
+        approach: 'Prefix and Suffix Products',
+        intuition: `For each index, the answer is the product of everything to its left multiplied by the product of everything to its right. We can compute these in two passes without division.`,
+        steps: [
+            'First pass (left to right): build a prefix product array where \`result[i]\` = product of all elements before i.',
+            'Second pass (right to left): multiply each \`result[i]\` by the running suffix product.',
+        ],
+        solution: `function productExceptSelf(nums) {
+  const n = nums.length;
+  const result = new Array(n);
+  result[0] = 1;
+  for (let i = 1; i < n; i++) {
+    result[i] = result[i - 1] * nums[i - 1];
+  }
+  let suffix = 1;
+  for (let i = n - 1; i >= 0; i--) {
+    result[i] *= suffix;
+    suffix *= nums[i];
+  }
+  return result;
+}`,
+        timeComplexity: 'O(n) -- two passes',
+        spaceComplexity: 'O(1) -- output array does not count as extra space',
+    },
 };

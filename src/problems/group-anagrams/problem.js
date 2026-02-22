@@ -25,4 +25,25 @@ function groupAnagrams(strs) {
 
 }`,
     functionName: 'groupAnagrams',
+    editorial: {
+        approach: 'Sorted Key Hash Map',
+        intuition: `Two strings are anagrams if and only if they have the same characters in sorted order. Use the sorted string as a hash map key to group anagrams together.`,
+        steps: [
+            'Create a hash map where keys are sorted strings and values are arrays of original strings.',
+            'For each string, sort its characters to get the key.',
+            'Push the original string into the corresponding group.',
+            'Return all values from the map.',
+        ],
+        solution: `function groupAnagrams(strs) {
+  const map = {};
+  for (const s of strs) {
+    const key = s.split('').sort().join('');
+    if (!map[key]) map[key] = [];
+    map[key].push(s);
+  }
+  return Object.values(map);
+}`,
+        timeComplexity: 'O(n * k log k) -- where k is the max string length',
+        spaceComplexity: 'O(n * k) -- storing all strings in the map',
+    },
 };
