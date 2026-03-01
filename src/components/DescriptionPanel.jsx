@@ -136,7 +136,11 @@ function EditorialTab({ editorial }) {
             {editorial.solution && (
                 <div className="editorial-section">
                     <h3>Solution</h3>
-                    <pre className="editorial-code"><code>{editorial.solution}</code></pre>
+                    {typeof editorial.solution === 'string' ? (
+                        <pre className="editorial-code"><code>{editorial.solution}</code></pre>
+                    ) : (
+                        <SolutionTabs solutions={editorial.solution} />
+                    )}
                 </div>
             )}
 
@@ -184,6 +188,28 @@ function HintItem({ index, hint }) {
                 </svg>
             </button>
             {open && <div className="hint-body">{hint}</div>}
+        </div>
+    );
+}
+
+function SolutionTabs({ solutions }) {
+    const langs = Object.keys(solutions);
+    const [activeLang, setActiveLang] = useState(langs[0]);
+
+    return (
+        <div className="solution-tabs-container">
+            <div className="solution-tabs-header">
+                {langs.map(lang => (
+                    <button
+                        key={lang}
+                        className={`solution-tab ${activeLang === lang ? 'active' : ''}`}
+                        onClick={() => setActiveLang(lang)}
+                    >
+                        {lang === 'javascript' ? 'JavaScript' : lang === 'python' ? 'Python' : 'C++'}
+                    </button>
+                ))}
+            </div>
+            <pre className="editorial-code"><code>{solutions[activeLang]}</code></pre>
         </div>
     );
 }

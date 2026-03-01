@@ -14,6 +14,7 @@ export default function ProblemSolve() {
     const { theme, toggleTheme } = useTheme();
     const problem = getProblemBySlug(slug);
 
+    const [language, setLanguage] = useState('javascript');
     const [code, setCode] = useState('');
     const [results, setResults] = useState(null);
     const [running, setRunning] = useState(false);
@@ -25,23 +26,32 @@ export default function ProblemSolve() {
     const layoutRef = useRef(null);
     const editorResultsRef = useRef(null);
 
+    // Get starter code for a specific language
+    const getStarterCode = (lang) => {
+        if (!problem) return '';
+        if (typeof problem.starterCode === 'string') {
+            return lang === 'javascript' ? problem.starterCode : '';
+        }
+        return problem.starterCode[lang] || '';
+    };
+
     // Load problem + saved code
     useEffect(() => {
         if (problem) {
-            const saved = getSavedCode(slug);
-            setCode(saved || problem.starterCode);
+            const saved = getSavedCode(slug, language);
+            setCode(saved || getStarterCode(language));
             setResults(null);
             setProgress(null);
         }
-    }, [slug, problem]);
+    }, [slug, problem, language]);
 
     // Auto-save code
     useEffect(() => {
         if (code && slug) {
-            const id = setTimeout(() => saveCode(slug, code), 500);
+            const id = setTimeout(() => saveCode(slug, code, language), 500);
             return () => clearTimeout(id);
         }
-    }, [code, slug]);
+    }, [code, slug, language]);
 
     // Horizontal resizer
     useEffect(() => {
@@ -136,6 +146,7 @@ export default function ProblemSolve() {
         const result = await runAllTests(
             code,
             problem.functionName,
+            language,
             problem.testcases,
             timeLimit,
             (partialResults, completed, total) => {
@@ -150,15 +161,15 @@ export default function ProblemSolve() {
         if (result.summary.allPassed) {
             markSolved(slug);
         }
-    }, [code, problem, running, slug]);
+    }, [code, problem, running, slug, language]);
 
     const handleReset = useCallback(() => {
         if (problem) {
-            setCode(problem.starterCode);
+            setCode(getStarterCode(language));
             setResults(null);
             setProgress(null);
         }
-    }, [problem]);
+    }, [problem, language, getStarterCode]);
 
     // Keyboard shortcut
     useEffect(() => {
@@ -258,12 +269,15 @@ export default function ProblemSolve() {
                 <div className="panel panel-editor-results" ref={editorResultsRef}>
                     <div className="editor-section">
                         <div className="editor-toolbar">
-                            <span className="lang-badge">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="14" height="14">
-                                    <path d="M17 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2Z" />
-                                </svg>
-                                JavaScript
-                            </span>
+                            <select
+                                className="lang-selector"
+                                value={language}
+                                onChange={(e) => setLanguage(e.target.value)}
+                            >
+                                <option value="javascript">JavaScript</option>
+                                <option value="python">Python</option>
+                                <option value="cpp">C++</option>
+                            </select>
                             <span style={{
                                 marginLeft: 'auto', fontSize: '0.78rem',
                                 color: 'var(--text-muted)', fontFamily: 'var(--font-mono)',
@@ -274,7 +288,7 @@ export default function ProblemSolve() {
                         <div className="editor-wrap">
                             <Editor
                                 height="100%"
-                                defaultLanguage="javascript"
+                                language={language === 'cpp' ? 'cpp' : language}
                                 value={code}
                                 onChange={(val) => setCode(val || '')}
                                 theme={editorTheme}

@@ -35,7 +35,8 @@ You can return the answer in any order.`,
         'A brute force approach would check every pair of numbers. Can you do better?',
         'Try using a hash map to store numbers you\'ve already seen, mapping each value to its index.',
     ],
-    starterCode: `/**
+    starterCode: {
+        javascript: `/**
  * @param {number[]} nums
  * @param {number} target
  * @return {number[]}
@@ -44,6 +45,18 @@ function twoSum(nums, target) {
   // Write your solution here
 
 }`,
+        python: `class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        # Write your solution here
+        pass`,
+        cpp: `class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        // Write your solution here
+        
+    }
+};`
+    },
     functionName: 'twoSum',
     editorial: {
         approach: 'Hash Map',
@@ -56,7 +69,8 @@ A hash map lets us store each number as we iterate and look up complements in O(
             'Check if the complement already exists in the map. If yes, return \`[map[complement], i]\`.',
             'Otherwise, store \`nums[i] -> i\` in the map and continue.',
         ],
-        solution: `function twoSum(nums, target) {
+        solution: {
+            javascript: `function twoSum(nums, target) {
   const map = {};
   for (let i = 0; i < nums.length; i++) {
     const complement = target - nums[i];
@@ -66,6 +80,26 @@ A hash map lets us store each number as we iterate and look up complements in O(
     map[nums[i]] = i;
   }
 }`,
+            python: `class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        prevMap = {} # val : index
+        for i, n in enumerate(nums):
+            diff = target - n
+            if diff in prevMap:
+                return [prevMap[diff], i]
+            prevMap[n] = i`,
+            cpp: `vector<int> twoSum(vector<int>& nums, int target) {
+    unordered_map<int, int> prevMap;
+    for (int i = 0; i < nums.size(); i++) {
+        int diff = target - nums[i];
+        if (prevMap.find(diff) != prevMap.end()) {
+            return {prevMap[diff], i};
+        }
+        prevMap[nums[i]] = i;
+    }
+    return {};
+}`
+        },
         timeComplexity: 'O(n) -- single pass through the array',
         spaceComplexity: 'O(n) -- hash map stores up to n elements',
     },

@@ -37,11 +37,12 @@ export function isSolved(slug) {
 /**
  * Save user code for a problem
  */
-export function saveCode(slug, code) {
+export function saveCode(slug, code, language = 'javascript') {
     try {
         const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
         if (!data.code) data.code = {};
-        data.code[slug] = code;
+        const key = `${slug}_${language}`;
+        data.code[key] = code;
         localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     } catch {
         // Ignore
@@ -51,10 +52,12 @@ export function saveCode(slug, code) {
 /**
  * Get saved code for a problem
  */
-export function getSavedCode(slug) {
+export function getSavedCode(slug, language = 'javascript') {
     try {
         const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-        return data.code?.[slug] || null;
+        const key = `${slug}_${language}`;
+        // Fallback to old key for JS if new key doesn't exist
+        return data.code?.[key] || data.code?.[slug] || null;
     } catch {
         return null;
     }

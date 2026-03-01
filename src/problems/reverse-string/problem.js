@@ -26,7 +26,8 @@ You must do this by modifying the input array **in-place** with O(1) extra memor
         'Use two pointers — one starting from the beginning and one from the end.',
         'Swap the characters at the two pointers and move them towards the center.',
     ],
-    starterCode: `/**
+    starterCode: {
+        javascript: `/**
  * @param {character[]} s
  * @return {void} Do not return anything, modify s in-place instead.
  */
@@ -34,6 +35,21 @@ function reverseString(s) {
   // Write your solution here
 
 }`,
+        python: `class Solution:
+    def reverseString(self, s: List[str]) -> None:
+        """
+        Do not return anything, modify s in-place instead.
+        """
+        # Write your solution here
+        pass`,
+        cpp: `class Solution {
+public:
+    void reverseString(vector<char>& s) {
+        // Write your solution here
+        
+    }
+};`
+    },
     functionName: 'reverseString',
     editorial: {
         approach: 'Two Pointers',
@@ -44,7 +60,8 @@ function reverseString(s) {
             'Move left forward and right backward.',
             'Repeat until left >= right.',
         ],
-        solution: `function reverseString(s) {
+        solution: {
+            javascript: `function reverseString(s) {
   let left = 0, right = s.length - 1;
   while (left < right) {
     [s[left], s[right]] = [s[right], s[left]];
@@ -52,6 +69,25 @@ function reverseString(s) {
     right--;
   }
 }`,
+            python: `class Solution:
+    def reverseString(self, s: List[str]) -> None:
+        left, right = 0, len(s) - 1
+        while left < right:
+            s[left], s[right] = s[right], s[left]
+            left += 1
+            right -= 1`,
+            cpp: `class Solution {
+public:
+    void reverseString(vector<char>& s) {
+        int left = 0, right = s.size() - 1;
+        while (left < right) {
+            swap(s[left], s[right]);
+            left++;
+            right--;
+        }
+    }
+};`
+        },
         timeComplexity: 'O(n) -- each element is visited once',
         spaceComplexity: 'O(1) -- in-place swap, no extra space',
     },
