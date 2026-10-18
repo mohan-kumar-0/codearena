@@ -78,8 +78,8 @@ Comparison strategies include exact equality, deep structural comparison, unorde
 
 ## Author
 
-**Kumar Mohan** -- [kumarmohan.com](https://kumarmohan.com) | [GitHub](https://github.com/mohan-kumar-0)
+**Mohan Kumar** -- [kumarmohan.com](https://kumarmohan.com) | [GitHub](https://github.com/mohan-kumar-0)
 
 ## License
 
-Copyright 2026 Kumar Mohan. All rights reserved.
+Copyright 2026 Mohan Kumar. All rights reserved.

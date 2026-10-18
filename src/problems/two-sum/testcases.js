@@ -19,7 +19,7 @@ export default [
     },
     {
         id: 4,
-        input: [[1, 5, 3, 7, 8, 2], 10],
+        input: [[1, 5, 3, 7, 8, 2], 15],
         expected: [3, 4],
         compare: 'unorderedArray',
     },

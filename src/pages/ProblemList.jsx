@@ -229,7 +229,7 @@ export default function ProblemList() {
                         </a>
                     </div>
                     <p className="footer-copyright">
-                        &copy; 2026 <a href="https://kumarmohan.com" target="_blank" rel="noopener noreferrer">Kumar Mohan</a>. All rights reserved.
+                        &copy; 2026 <a href="https://kumarmohan.com" target="_blank" rel="noopener noreferrer">by Mohan Kumar</a>. All rights reserved.
                     </p>
                     <p className="footer-tagline">Built with React, Vite, and Monaco Editor</p>
                 </div>
